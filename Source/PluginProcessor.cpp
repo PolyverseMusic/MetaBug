@@ -33,7 +33,7 @@ MetaBugAudioProcessor::MetaBugAudioProcessor()
 #endif
 {
     addListener((AudioProcessorListener*)this);
-    addParameter(metaSlaveParam = new AudioParameterFloat({"metaSlave",1},"metaSlave",0.f,1.f,0.5f));
+    addParameter(metaSlaveParam = new AudioParameterFloat({"metaSlave",1},"metaSlave",NormalisableRange<float> (0.f,1.f),0.5f));
     addParameter(metaMasterParam = new MetaParam("meta master"));
 }
 
@@ -206,7 +206,8 @@ void MetaBugAudioProcessor::audioProcessorParameterChanged(AudioProcessor* proce
                                     int parameterIndex,
                                     float newValue)
 {
-    DBG("Param Changed");
+    auto paramName = processor->getParameterName(parameterIndex);
+    DBG("Param Changed: "+paramName+ " val: "+String(newValue));
 }
 void MetaBugAudioProcessor::audioProcessorChanged (AudioProcessor* processor, const ChangeDetails& details)
 {
@@ -215,10 +216,12 @@ void MetaBugAudioProcessor::audioProcessorChanged (AudioProcessor* processor, co
 void MetaBugAudioProcessor::audioProcessorParameterChangeGestureBegin (AudioProcessor* processor,
                                                         int parameterIndex)
 {
-    DBG("Param Gesture Begin");
+    auto paramName = processor->getParameterName(parameterIndex);
+    DBG("Param Gesture Begin: "+paramName);
 }
 void MetaBugAudioProcessor::audioProcessorParameterChangeGestureEnd (AudioProcessor* processor,
                                                       int parameterIndex)
 {
-    DBG("Param Gesture End");
+    auto paramName = processor->getParameterName(parameterIndex);
+    DBG("Param Gesture End: "+paramName);
 }

@@ -58,11 +58,11 @@ void MetaBugAudioProcessorEditor::timerCallback()
     auto masterVal = audioProcessor.metaMasterParam->getValue();
     if (slaveVal != metaSlaveSlider.getValue())
     {
-        metaSlaveSlider.setValue(slaveVal);
+        metaSlaveSlider.setValue(slaveVal,NotificationType::dontSendNotification);
     }
     if (masterVal != metaMasterSlider.getValue())
     {
-        metaMasterSlider.setValue(masterVal);
+        metaMasterSlider.setValue(masterVal,NotificationType::dontSendNotification);
     }
 }
 void MetaBugAudioProcessorEditor::sliderValueChanged (Slider* slider)
