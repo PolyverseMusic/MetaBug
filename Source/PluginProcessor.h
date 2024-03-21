@@ -9,7 +9,6 @@
 #pragma once
 
 #include <JuceHeader.h>
-
 //==============================================================================
 /**
 */
@@ -53,9 +52,11 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    std::unique_ptr<AudioProcessorParameterGroup> g_global;
     AudioProcessorParameter* metaSlaveParam;
     AudioProcessorParameter* metaMasterParam;
-    
+
     void audioProcessorParameterChanged(AudioProcessor* processor,
                                         int parameterIndex,
                                         float newValue) override;

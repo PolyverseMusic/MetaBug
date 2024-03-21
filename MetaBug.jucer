@@ -18,16 +18,6 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="vHQeYC" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
-    <GROUP id="{AB88B97D-0F71-EA66-C8C7-F7E9A9E30C45}" name="PolyverseDSP">
-      <GROUP id="{DE4DB9BE-1E92-C68A-D425-86369AB19998}" name="PolyJuce">
-        <GROUP id="{AF9BC311-44B8-2EFF-FAAF-22D84C822361}" name="Parameters">
-          <FILE id="gcNkjP" name="PolyParamTypes.cpp" compile="1" resource="0"
-                file="../../Libs/PolyverseDSP/PolyJuce/Parameters/PolyParamTypes.cpp"/>
-          <FILE id="KsPlL5" name="PolyParamTypes.h" compile="0" resource="0"
-                file="../../Libs/PolyverseDSP/PolyJuce/Parameters/PolyParamTypes.h"/>
-        </GROUP>
-      </GROUP>
-    </GROUP>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
@@ -66,7 +56,7 @@
         <MODULEPATH id="juce_gui_extra" path="../../Libs/JUCE 7/modules"/>
       </MODULEPATHS>
     </VS2022>
-    <XCODE_MAC targetFolder="Builds/MacOSX">
+    <XCODE_MAC targetFolder="Builds/MacOSX" extraLinkerFlags="-Wl,-ld_classic">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="MetaBug"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="MetaBug"/>

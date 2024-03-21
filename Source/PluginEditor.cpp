@@ -41,21 +41,28 @@ void MetaBugAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    
+    g.setColour(Colours::white);
+    Rectangle<int> r(10,10,getWidth(),20);
+    g.drawText("Move the master, and the click - but DONT DRAG the slave.", r, Justification::centredLeft);
+    g.drawText("It will pop into the last value reported to the host", r.withY(30), Justification::centredLeft);
+    g.drawText("Number of Parameters: "+String(processor.getParameters().size()), 10, getHeight()-40, 200, 20, Justification::centredLeft);
+    g.drawText(String(__DATE__)+" "+String(__TIME__), 10, getHeight()-20, 200, 20, Justification::centredLeft);
 }
 
 void MetaBugAudioProcessorEditor::resized()
 {
-    metaMasterSlider.setBounds(10,10,200,40);
-    metaSlaveSlider.setBounds(10,50,200,40);
-    masterLbl.setBounds(210,10,100,40);
-    slaveLbl.setBounds(210,50,100,40);
+    metaMasterSlider.setBounds(10,50,200,40);
+    metaSlaveSlider.setBounds(10,90,200,40);
+    masterLbl.setBounds(210,50,100,40);
+    slaveLbl.setBounds(210,90,100,40);
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 }
 void MetaBugAudioProcessorEditor::timerCallback()
-{   auto slaveVal = audioProcessor.metaSlaveParam->getValue();
+{
+    auto slaveVal = audioProcessor.metaSlaveParam->getValue();
     auto masterVal = audioProcessor.metaMasterParam->getValue();
+    
     if (slaveVal != metaSlaveSlider.getValue())
     {
         metaSlaveSlider.setValue(slaveVal,NotificationType::dontSendNotification);

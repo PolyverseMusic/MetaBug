@@ -8,8 +8,8 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "PolyJuce/Parameters/PolyParamTypes.h"
-/*
+
+
 class MetaParam:    public AudioParameterFloat
 {
 public:
@@ -28,37 +28,30 @@ public:
     {
         return 101;
     }
-};*/
-
-
-class MetaParam:    public PolyParamSelector
-{
-public:
-    MetaParam(String paramId):
-    PolyParamSelector(paramId, 0, 100, paramId)
-    {
-        setMetaParam();
-    }
 };
+
 
 
 //==============================================================================
 MetaBugAudioProcessor::MetaBugAudioProcessor()
-#ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-                      #endif
-                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
-                     #endif
-                       )
-#endif
+                       .withInput  ("Input",  AudioChannelSet::stereo(), true)
+                       .withOutput ("Output", AudioChannelSet::stereo(), true)
+                       .withInput  ("SideChain",  AudioChannelSet::stereo(), true))
 {
     addListener((AudioProcessorListener*)this);
-    //addParameter(metaSlaveParam = new AudioParameterFloat({"metaSlave",1},"metaSlave",NormalisableRange<float> (0.f,1.f),0.5f));
-    addParameter(metaSlaveParam = new PolyParam("metaSlave","metaSlave"));
-    addParameter(metaMasterParam = new MetaParam("meta master"));
+    
+    //the bug will be triggered when size is above 62. meaning if there are 65 total parameters, the bug is there.
+    int size = 100;
+    auto range = NormalisableRange<float> (0.f,1.f);
+    for (int i=0; i<size; ++i)
+    {
+        String dummy ("dummy"+String(i));
+        addParameter( new AudioParameterFloat({dummy,1},dummy,range,0.5f));
+    }
+    addParameter(metaSlaveParam = new AudioParameterFloat({"metaSlave",1},"metaSlave",range,0.5f));
+    addParameter(metaMasterParam = new MetaParam("metaMaster"));
+
 }
 
 MetaBugAudioProcessor::~MetaBugAudioProcessor()
@@ -141,7 +134,7 @@ void MetaBugAudioProcessor::releaseResources()
     // spare memory, etc.
 }
 
-#ifndef JucePlugin_PreferredChannelConfigurations
+//#ifndef JucePlugin_PreferredChannelConfigurations
 bool MetaBugAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
     bool isSupported = false;
@@ -178,7 +171,7 @@ bool MetaBugAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) 
     return isSupported;
     //return layouts.getMainInputChannelSet() == layouts.getMainOutputChannelSet() && ! layouts.getMainInputChannelSet().isDisabled();
 }
-#endif
+//#endif
 
 void MetaBugAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
