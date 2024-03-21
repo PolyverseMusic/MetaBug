@@ -71,3 +71,11 @@ Builds/MacOSX/build/Debug/MetaBug.vst3/Contents/Info.plist
 Builds/MacOSX/build/Debug/MetaBug.vst3/Contents/_CodeSignature/CodeResources
 Builds/MacOSX/build/Debug/libMetaBug.a
 Builds/MacOSX/build/Debug/juce_vst3_helper
+JuceLibraryCode/AppConfig.h
+Builds/VisualStudio2022/MetaBug_VST.vcxproj.filters
+Builds/VisualStudio2022/MetaBug_VST.vcxproj
+Builds/VisualStudio2022/MetaBug_AAX.vcxproj.filters
+Builds/VisualStudio2022/MetaBug_AAX.vcxproj
+Builds/MacOSX/MetaBug.xcodeproj/xcshareddata/xcschemes/MetaBug - VST3 Manifest Helper.xcscheme
+Builds/MacOSX/Info-VST.plist
+Builds/MacOSX/Info-AAX.plist

@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="OcHcZM" name="MetaBug" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="1" jucerFormatVersion="1">
+<JUCERPROJECT id="OcHcZM" name="MetaBug" projectType="audioplug" jucerFormatVersion="1"
+              pluginCharacteristicsValue="pluginEditorRequiresKeys,pluginWantsMidiIn"
+              pluginVST3Category="Filter" includeBinaryInJuceHeader="0" cppLanguageStandard="20"
+              defines="JucePlugin_AUHighResolutionParameters=1&#10;JUCE_ENABLE_REPAINT_DEBUGGING=0"
+              headerPath="../../Source" version="0.7.4" companyName="Polyverse Music"
+              companyCopyright="Polyverse Music" companyWebsite="polyversemusic.com"
+              companyEmail="support@polyversemusic.com" pluginManufacturerCode="PLVm"
+              pluginCode="PvMb" pluginFormats="buildAAX,buildAU,buildVST,buildVST3">
   <MAINGROUP id="UytV4y" name="MetaBug">
     <GROUP id="{FC6EFEE4-4CAA-775A-E1B0-B6E722B853A2}" name="Source">
       <FILE id="h9ZZuK" name="PluginProcessor.cpp" compile="1" resource="0"

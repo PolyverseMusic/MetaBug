@@ -13,10 +13,20 @@ class MetaParam:    public AudioParameterFloat
 {
 public:
     MetaParam(String paramId):
-    AudioParameterFloat({paramId,1}, paramId,NormalisableRange<float> (0.f,1.f),0.5f, AudioParameterFloatAttributes().withMeta(true))
+    AudioParameterFloat({paramId,1}, paramId,NormalisableRange<float> (0.f,1.f,0.01f),0.5f, AudioParameterFloatAttributes().withMeta(true))
     {
+        
     }
     
+    bool isDiscrete() const override
+    { 
+        return true;
+    }
+    
+    int getNumSteps() const override
+    {
+        return 101;
+    }
 };
 
 //==============================================================================
@@ -39,6 +49,7 @@ MetaBugAudioProcessor::MetaBugAudioProcessor()
 
 MetaBugAudioProcessor::~MetaBugAudioProcessor()
 {
+    removeListener((AudioProcessorListener*)this);
 }
 
 //==============================================================================
@@ -76,7 +87,7 @@ bool MetaBugAudioProcessor::isMidiEffect() const
 
 double MetaBugAudioProcessor::getTailLengthSeconds() const
 {
-    return 0.0;
+    return 36.0;
 }
 
 int MetaBugAudioProcessor::getNumPrograms()

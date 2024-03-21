@@ -73,8 +73,9 @@ void MetaBugAudioProcessorEditor::sliderValueChanged (Slider* slider)
     }
     else if (slider == &metaMasterSlider)
     {
-        audioProcessor.metaSlaveParam->setValue(slider->getValue());
+        
         audioProcessor.metaMasterParam->setValueNotifyingHost(slider->getValue());
+        audioProcessor.metaSlaveParam->setValue(audioProcessor.metaMasterParam->getValue());
     }
 }
 void MetaBugAudioProcessorEditor::sliderDragStarted (Slider* slider)
