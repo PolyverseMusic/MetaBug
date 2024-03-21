@@ -15,6 +15,19 @@ MetaBugAudioProcessorEditor::MetaBugAudioProcessorEditor (MetaBugAudioProcessor&
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
+    masterLbl.setText("master",NotificationType::dontSendNotification);
+    slaveLbl.setText("slave",NotificationType::dontSendNotification);
+    addAndMakeVisible(metaMasterSlider);
+    addAndMakeVisible(metaSlaveSlider);
+    addAndMakeVisible(masterLbl);
+    addAndMakeVisible(slaveLbl);
+    metaSlaveSlider.addListener(this);
+    metaMasterSlider.addListener(this);
+    metaSlaveSlider.setRange(0.f, 1.f);
+    metaMasterSlider.setRange(0.f, 1.f);
+    metaSlaveSlider.setSliderSnapsToMousePosition(false);
+    metaMasterSlider.setSliderSnapsToMousePosition(false);
+    
     setSize (400, 300);
     startTimerHz(30);
 }
@@ -28,28 +41,15 @@ void MetaBugAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
-    addAndMakeVisible(metaMasterSlider);
-    addAndMakeVisible(metaSlaveSlider);
-    addAndMakeVisible(metaMasterSlider);
-    addAndMakeVisible(metaSlaveSlider);
-    metaSlaveSlider.addListener(this);
-    metaMasterSlider.addListener(this);
-    metaSlaveSlider.setRange(0.f, 1.f);
-    metaMasterSlider.setRange(0.f, 1.f);
-    metaSlaveSlider.setSliderSnapsToMousePosition(false);
-    metaMasterSlider.setSliderSnapsToMousePosition(false);
+    
 }
 
 void MetaBugAudioProcessorEditor::resized()
 {
     metaMasterSlider.setBounds(10,10,200,40);
     metaSlaveSlider.setBounds(10,50,200,40);
-    masterLbl.setBounds(10,110,40,20);
-    slaveLbl.setBounds(50,110,40,20);
+    masterLbl.setBounds(210,10,100,40);
+    slaveLbl.setBounds(210,50,100,40);
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 }
