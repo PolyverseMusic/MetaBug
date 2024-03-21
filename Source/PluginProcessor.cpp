@@ -8,7 +8,8 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-
+#include "PolyJuce/Parameters/PolyParamTypes.h"
+/*
 class MetaParam:    public AudioParameterFloat
 {
 public:
@@ -27,7 +28,19 @@ public:
     {
         return 101;
     }
+};*/
+
+
+class MetaParam:    public PolyParamSelector
+{
+public:
+    MetaParam(String paramId):
+    PolyParamSelector(paramId, 0, 100, paramId)
+    {
+        setMetaParam();
+    }
 };
+
 
 //==============================================================================
 MetaBugAudioProcessor::MetaBugAudioProcessor()
@@ -43,7 +56,8 @@ MetaBugAudioProcessor::MetaBugAudioProcessor()
 #endif
 {
     addListener((AudioProcessorListener*)this);
-    addParameter(metaSlaveParam = new AudioParameterFloat({"metaSlave",1},"metaSlave",NormalisableRange<float> (0.f,1.f),0.5f));
+    //addParameter(metaSlaveParam = new AudioParameterFloat({"metaSlave",1},"metaSlave",NormalisableRange<float> (0.f,1.f),0.5f));
+    addParameter(metaSlaveParam = new PolyParam("metaSlave","metaSlave"));
     addParameter(metaMasterParam = new MetaParam("meta master"));
 }
 
@@ -130,26 +144,39 @@ void MetaBugAudioProcessor::releaseResources()
 #ifndef JucePlugin_PreferredChannelConfigurations
 bool MetaBugAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
-  #if JucePlugin_IsMidiEffect
-    juce::ignoreUnused (layouts);
-    return true;
-  #else
-    // This is the place where you check if the layout is supported.
-    // In this template code we only support mono or stereo.
-    // Some plugin hosts, such as certain GarageBand versions, will only
-    // load plugins that support stereo bus layouts.
-    if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono()
-     && layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
-        return false;
-
-    // This checks if the input layout matches the output layout
-   #if ! JucePlugin_IsSynth
-    if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
-        return false;
-   #endif
-
-    return true;
-  #endif
+    bool isSupported = false;
+    
+    AudioChannelSet mainInputCh = layouts.getMainInputChannelSet();
+    AudioChannelSet sideChainCh = layouts.getChannelSet(true, 1);
+    AudioChannelSet mainOutputCh = layouts.getMainOutputChannelSet();
+    
+    //{1,1} channel + stereo/mono side chain
+    if (mainInputCh == AudioChannelSet::mono() &&
+        (sideChainCh == AudioChannelSet::stereo() || sideChainCh == AudioChannelSet::mono()) &&
+        mainOutputCh == AudioChannelSet::mono() )
+    {
+        isSupported = true;
+    }
+    
+    //{2,2} channel + stereo/mono side chain
+    if (mainInputCh == AudioChannelSet::stereo() &&
+        (sideChainCh == AudioChannelSet::stereo() || sideChainCh == AudioChannelSet::mono()) &&
+        mainOutputCh == AudioChannelSet::stereo() )
+    {
+        isSupported = true;
+    }
+    
+    //{1,2} channel + stereo/mono side chain
+    if (mainInputCh == AudioChannelSet::mono() &&
+        (sideChainCh == AudioChannelSet::stereo() || sideChainCh == AudioChannelSet::mono()) &&
+        mainOutputCh == AudioChannelSet::stereo() )
+    {
+        isSupported = true;
+    }
+    //DBG(mainInputCh.getDescription()+ " " + sideChainCh.getDescription()+ " " + mainOutputCh.getDescription() +" " + String(isSupported));
+    
+    return isSupported;
+    //return layouts.getMainInputChannelSet() == layouts.getMainOutputChannelSet() && ! layouts.getMainInputChannelSet().isDisabled();
 }
 #endif
 
@@ -213,11 +240,12 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new MetaBugAudioProcessor();
 }
+
 void MetaBugAudioProcessor::audioProcessorParameterChanged(AudioProcessor* processor,
                                     int parameterIndex,
                                     float newValue)
 {
-    auto paramName = processor->getParameterName(parameterIndex);
+    auto paramName = processor->getParameters()[parameterIndex]->getName(25);
     DBG("Param Changed: "+paramName+ " val: "+String(newValue));
 }
 void MetaBugAudioProcessor::audioProcessorChanged (AudioProcessor* processor, const ChangeDetails& details)
@@ -227,12 +255,12 @@ void MetaBugAudioProcessor::audioProcessorChanged (AudioProcessor* processor, co
 void MetaBugAudioProcessor::audioProcessorParameterChangeGestureBegin (AudioProcessor* processor,
                                                         int parameterIndex)
 {
-    auto paramName = processor->getParameterName(parameterIndex);
+    auto paramName = processor->getParameters()[parameterIndex]->getName(25);
     DBG("Param Gesture Begin: "+paramName);
 }
 void MetaBugAudioProcessor::audioProcessorParameterChangeGestureEnd (AudioProcessor* processor,
                                                       int parameterIndex)
 {
-    auto paramName = processor->getParameterName(parameterIndex);
+    auto paramName = processor->getParameters()[parameterIndex]->getName(25);
     DBG("Param Gesture End: "+paramName);
 }

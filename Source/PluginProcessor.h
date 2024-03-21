@@ -13,7 +13,7 @@
 //==============================================================================
 /**
 */
-class MetaBugAudioProcessor  : public juce::AudioProcessor, public AudioProcessorListener
+class MetaBugAudioProcessor  : public AudioProcessor, public AudioProcessorListener
 {
     
 public:

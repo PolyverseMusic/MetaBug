@@ -4,10 +4,10 @@
               pluginCharacteristicsValue="pluginEditorRequiresKeys,pluginWantsMidiIn"
               pluginVST3Category="Filter" includeBinaryInJuceHeader="0" cppLanguageStandard="20"
               defines="JucePlugin_AUHighResolutionParameters=1&#10;JUCE_ENABLE_REPAINT_DEBUGGING=0"
-              headerPath="../../Source" version="0.7.4" companyName="Polyverse Music"
-              companyCopyright="Polyverse Music" companyWebsite="polyversemusic.com"
-              companyEmail="support@polyversemusic.com" pluginManufacturerCode="PLVm"
-              pluginCode="PvMb" pluginFormats="buildAAX,buildAU,buildVST,buildVST3">
+              headerPath="../../Source&#10;../../../../Libs/PolyverseDSP" version="0.7.4"
+              companyName="Polyverse Music" companyCopyright="Polyverse Music"
+              companyWebsite="polyversemusic.com" companyEmail="support@polyversemusic.com"
+              pluginManufacturerCode="PLVm" pluginCode="PvMb" pluginFormats="buildAAX,buildAU,buildVST,buildVST3">
   <MAINGROUP id="UytV4y" name="MetaBug">
     <GROUP id="{FC6EFEE4-4CAA-775A-E1B0-B6E722B853A2}" name="Source">
       <FILE id="h9ZZuK" name="PluginProcessor.cpp" compile="1" resource="0"
@@ -17,6 +17,16 @@
       <FILE id="u8DupC" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="vHQeYC" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+    <GROUP id="{AB88B97D-0F71-EA66-C8C7-F7E9A9E30C45}" name="PolyverseDSP">
+      <GROUP id="{DE4DB9BE-1E92-C68A-D425-86369AB19998}" name="PolyJuce">
+        <GROUP id="{AF9BC311-44B8-2EFF-FAAF-22D84C822361}" name="Parameters">
+          <FILE id="gcNkjP" name="PolyParamTypes.cpp" compile="1" resource="0"
+                file="../../Libs/PolyverseDSP/PolyJuce/Parameters/PolyParamTypes.cpp"/>
+          <FILE id="KsPlL5" name="PolyParamTypes.h" compile="0" resource="0"
+                file="../../Libs/PolyverseDSP/PolyJuce/Parameters/PolyParamTypes.h"/>
+        </GROUP>
+      </GROUP>
     </GROUP>
   </MAINGROUP>
   <MODULES>
